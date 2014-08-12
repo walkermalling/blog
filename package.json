@@ -1,0 +1,8 @@
+{
+  "name": "portfolio",
+  "version": "0.1.0",
+  "description": "practice blog",
+  "dependencies": {
+    "express": "^4.8.3"
+  }
+}
