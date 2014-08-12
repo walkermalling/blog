@@ -7,9 +7,13 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-sass');
   grunt.loadNpmTasks('grunt-browserify');
   grunt.loadNpmTasks('grunt-express-server');
+  grunt.loadNpmTasks('grunt-contrib-clean');
+  grunt.loadNpmTasks('grunt-contrib-uglify');
 
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
+
+    clean : ['dist'],
 
     // JS HINT
     jshint: {
@@ -44,6 +48,14 @@ module.exports = function(grunt) {
         src: ['app/bower_components/**/*.js', 'app/scripts/*.js'],
         dest: 'dist/scripts/bundle.js',
       },
+    },
+
+    uglify: {
+      my_target: {
+        files: {
+          'dist/scripts/bundle.min.js': ['dist/scripts/bundle.js']
+        }
+      }
     },
 
     // HTMLMIN
@@ -94,5 +106,5 @@ module.exports = function(grunt) {
 
   });
   grunt.registerTask('test', ['express','casperjs']);
-  grunt.registerTask('default', ['jshint','sass','concat','htmlmin', 'browserify']);
+  grunt.registerTask('default', ['jshint','clean','sass','concat','htmlmin','uglify','browserify']);
 };
