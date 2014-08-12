@@ -1,6 +1,7 @@
 module.exports = function(grunt) {
 
   grunt.loadNpmTasks('grunt-contrib-jshint');
+  grunt.loadNpmTasks('grunt-casperjs');
 
   grunt.initConfig({
 
@@ -19,10 +20,20 @@ module.exports = function(grunt) {
           './app/style/master.compiled.css': './app/style/master.scss'
         }
       }
+    },
+
+    // CASPER
+    casperjs: {
+      options: {
+        async: {
+          parallel: false
+        }
+      },
+      files: ['test/acceptance/**/*.js']
     }
 
   });
 
   grunt.loadNpmTasks('grunt-contrib-sass');
-  grunt.registerTask('default', ['jshint','sass']);
+  grunt.registerTask('default', ['jshint','sass','casperjs']);
 };
