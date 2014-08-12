@@ -5,6 +5,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-htmlmin');
   grunt.loadNpmTasks('grunt-contrib-concat');
   grunt.loadNpmTasks('grunt-contrib-sass');
+  grunt.loadNpmTasks('grunt-browserify');
 
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
@@ -39,7 +40,7 @@ module.exports = function(grunt) {
     // CONCAT
     concat: {
       dist: {
-        src: ['app/bower_components/**/*.js'],
+        src: ['app/bower_components/**/*.js', 'app/scripts/*.js'],
         dest: 'dist/scripts/bundle.js',
       },
     },
@@ -55,10 +56,22 @@ module.exports = function(grunt) {
           'dist/index.html': 'app/index.html',     // 'destination': 'source'
         }
       }
-    }
+    },
+
+    // BROWSERIFY
+    browserify: {
+      all: {
+        src: 'app/scripts/*.js',
+        dest: 'dist/scripts/app.js'
+      },
+      options: {
+        transform: ['debowerify'],
+        debug: true
+      }
+    },
 
 
   });
 
-  grunt.registerTask('default', ['jshint','sass','concat','htmlmin']);
+  grunt.registerTask('default', ['jshint','sass','concat','htmlmin', 'browserify']);
 };
