@@ -2,8 +2,12 @@ module.exports = function(grunt) {
 
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-casperjs');
+  grunt.loadNpmTasks('grunt-contrib-htmlmin');
+  grunt.loadNpmTasks('grunt-contrib-concat');
+  grunt.loadNpmTasks('grunt-contrib-sass');
 
   grunt.initConfig({
+    pkg: grunt.file.readJSON('package.json'),
 
     // JS HINT
     jshint: {
@@ -30,10 +34,31 @@ module.exports = function(grunt) {
         }
       },
       files: ['test/acceptance/**/*.js']
+    },
+
+    // CONCAT
+    concat: {
+      dist: {
+        src: ['app/bower_components/**/*.js'],
+        dest: 'dist/scripts/bundle.js',
+      },
+    },
+
+    // HTMLMIN
+    htmlmin: {                                     // Task
+      dist: {                                      // Target
+        options: {                                 // Target options
+          removeComments: true,
+          collapseWhitespace: true
+        },
+        files: {                                   // Dictionary of files
+          'dist/index.html': 'app/index.html',     // 'destination': 'source'
+        }
+      }
     }
+
 
   });
 
-  grunt.loadNpmTasks('grunt-contrib-sass');
-  grunt.registerTask('default', ['jshint','sass','casperjs']);
+  grunt.registerTask('default', ['jshint','sass','concat','htmlmin']);
 };
