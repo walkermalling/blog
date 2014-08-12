@@ -6,6 +6,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-concat');
   grunt.loadNpmTasks('grunt-contrib-sass');
   grunt.loadNpmTasks('grunt-browserify');
+  grunt.loadNpmTasks('grunt-express-server');
 
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
@@ -70,8 +71,28 @@ module.exports = function(grunt) {
       }
     },
 
+    // EXPESS SEVER
+    express: {
+      dev: {
+        options: {
+          script: 'server.js'
+        }
+      },
+      // prod: {
+      //   options: {
+      //     script: 'path/to/prod/server.js',
+      //     node_env: 'production'
+      //   }
+      // },
+      // test: {
+      //   options: {
+      //     script: 'path/to/test/server.js'
+      //   }
+      // }
+    }
+
 
   });
-
+  grunt.registerTask('test', ['express','casperjs']);
   grunt.registerTask('default', ['jshint','sass','concat','htmlmin', 'browserify']);
 };
